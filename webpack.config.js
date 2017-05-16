@@ -13,6 +13,15 @@ module.exports = {
       "webpack/hot/only-dev-server"
     ]
   },
+  devServer: {
+    historyApiFallback: true,
+    watchOptions: { aggregateTimeout: 300, poll: 1000 },
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+    }
+  },
   output: {
     filename: 'bundle-[hash].js',
     publicPath: '/',
@@ -51,9 +60,28 @@ module.exports = {
         loader: "url-loader"
       },
       {
-        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: "file-loader"
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'babel-loader'
+          },
+          {
+            loader: 'react-svg-loader',
+            query: {
+              svgo: {
+                plugins: [{removeTitle: false}],
+                floatPrecision: 2
+              }
+            }
+          }
+        ]
       }
+
+
     ]
   },
   resolve: {

@@ -1,8 +1,14 @@
 
 import React from 'react';
 import { render } from 'react-dom';
+import AudioPlayer from './AudioPlayer'
 
+
+var sound = "http://hwcdn.libsyn.com/p/9/5/0/950f894211e17b78/Part_1_-_Schooled_by_Silicon_Valley.mp3?c_id=12078641&expiration=1494730851&hwt=4da344cb8477fe2203f931507cde8ded";
 render(
-  <h1>Hello, world!</h1>,
+  <div>
+    <h1>Hello, world!</h1>
+    <AudioPlayer mediaUrl={sound} />
+  </div>,
   document.getElementById('react-content')
 );
