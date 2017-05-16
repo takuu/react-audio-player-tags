@@ -19,14 +19,14 @@ let playerInfo = {};
 var sound = new Howl({
   src: ['http://hwcdn.libsyn.com/p/9/5/0/950f894211e17b78/Part_1_-_Schooled_by_Silicon_Valley.mp3?c_id=12078641&expiration=1494730851&hwt=4da344cb8477fe2203f931507cde8ded']
 });
-
-playerInfo.duration = sound.duration();
-debugger;
 /*
 PlayerStatus:
-stop: 0,
-play: 1,
-pause: 2,
+unloaded: 0,
+loading: 1,
+loaded: 2,
+playing: 3,
+paused: 4,
+stopped: 5,
 
  */
 
@@ -37,7 +37,13 @@ class AudioPlayer extends Component {
   constructor() {
     super();
     console.log('Howler: ', Howler);
-    this.state = {playerStatus: 0};
+    this.state = {
+      playerStatus: 0,
+      duration: 0,
+      url: "",
+      position: 0,
+      intervalId: 0,
+    };
     this.onToggle = this.onToggle.bind(this);
     this.play = this.play.bind(this);
     this.start = this.start.bind(this);
@@ -60,22 +66,20 @@ class AudioPlayer extends Component {
 
     console.log('componentWillMount');
     this.start(this.props);
-    debugger;
   }
 
   componentWillReceiveProps(nextProps) {
 
     this.start(nextProps);
     console.log('componentWillReceiveProps');
-    debugger;
   }
 
   start(props) {
     const { mediaUrl } = props;
     console.log('start');
-    debugger;
     if(playerInfo.mediaUrl != mediaUrl) {
       playerInfo.mediaUrl = mediaUrl;
+      this.state.url = mediaUrl;
       sound = new Howl({
         src: [mediaUrl]
       });
@@ -89,16 +93,45 @@ class AudioPlayer extends Component {
     console.log('play');
     debugger;
     sound.play();
-    playerInfo.intervalId = setInterval(() => {
+    playerInfo.intervalId = this.state.intervalId = setInterval(() => {
 
       playerInfo.position = sound.seek();
-      debugger;
+      this.state.position = sound.seek();
+
+
+      let status = sound.state();
+      let position = 0;
+      let duration = 0;
+      switch(status) {
+        case 'loading':
+          this.setState({
+            playerStatus: 1,
+            duration: 0,
+            position: 0,
+          });
+          break;
+        case 'loaded':
+          this.setState({
+            playerStatus: 3,
+            duration: sound.duration(),
+            position: sound.seek()
+          });
+          break;
+        default:
+          break;
+      }
+
+      console.log('status: ', status);
     }, 1000);
   }
 
   pause() {
     const {mediaUrl} = this.props.player;
+    clearInterval(this.state.intervalId);
     sound.pause();
+    this.setState({
+      playerStatus: 2,
+    });
     // this.props.actions.playerPause(mediaUrl);
   }
 
@@ -132,12 +165,24 @@ class AudioPlayer extends Component {
 
   }
   render() {
+    console.log(this.state.duration, this.state.position);
     return (
       <div>
         <View style={styles.foo}>
           <div>
             {/*<button class="button icon ion-play"  style={{backgroundColor: '#0371d8', color:'#fff', border:'none'}} ></button>*/}
-            <Play width={20} height={20} onClick={this.play} />
+            {((playerStatus, play, pause) => {
+              if (playerStatus == 3) {
+                return (
+                  <Pause width={20} height={20} onClick={pause} />
+                );
+              } else {
+                return (
+                  <Play width={20} height={20} onClick={play} />
+                )
+              }
+            })(this.state.playerStatus, this.play, this.pause)}
+
           </div>
           media stuff
           <div style={style}>
