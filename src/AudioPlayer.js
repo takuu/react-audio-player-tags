@@ -9,7 +9,7 @@ import Play from './assets/ios-play.svg';
 import Pause from './assets/ios-pause.svg';
 
 import {Howler} from 'howler';
-const style = { width: 400, margin: 50 };
+const style = { width: '90%', margin: 50 };
 
 function log(e) {
   console.log(e);
@@ -82,7 +82,11 @@ class AudioPlayer extends Component {
       playerInfo.mediaUrl = mediaUrl;
       this.state.url = mediaUrl;
       sound = new Howl({
-        src: [mediaUrl]
+        src: [mediaUrl],
+        volume: 0.1,
+        onend: function() {
+          console.log('finished!');
+        }
       });
       this.play();
     }
@@ -92,7 +96,6 @@ class AudioPlayer extends Component {
   play() {
     const {mediaUrl} = this.props.player;
     console.log('play');
-    debugger;
     sound.play();
     playerInfo.intervalId = this.state.intervalId = setInterval(() => {
 
@@ -182,7 +185,6 @@ class AudioPlayer extends Component {
       <div>
         <View style={styles.foo}>
           <div>
-            {/*<button class="button icon ion-play"  style={{backgroundColor: '#0371d8', color:'#fff', border:'none'}} ></button>*/}
             {((playerStatus, play, pause) => {
               if (playerStatus == 3) {
                 return (
@@ -206,22 +208,23 @@ class AudioPlayer extends Component {
               step={1}
               min={1}
               value={parseInt(this.state.position)}
-              max={parseInt(this.state.duration)}
+              max={parseInt(this.state.duration) || 100}
               onChange={this.moveSeek}
               onAfterChange={this.seek}
               maximumTrackStyle={{ backgroundColor: 'red', height: 10 }}
-              minimumTrackStyle={{ backgroundColor: 'blue', height: 10 }}
+              minimumTrackStyle={{ backgroundColor: 'blue', height: 10, borderRadius: 0,paddingRight: -50, }}
               handleStyle={{
                 borderColor: 'blue',
+                borderWidth: 0,
                 height: 28,
-                width: 28,
-                marginLeft: -14,
+                width: 5,
+                marginLeft: -2,
                 marginTop: -9,
                 backgroundColor: 'blue',
+                borderRadius: 0,
               }}
             />
           </div>
-
         </View>
       </div>
     );
@@ -244,10 +247,14 @@ AudioPlayer.defaultProps = {
 };
 const styles = StyleSheet.create({
   foo: {
-    width: '50%',
-    height: 100,
-    backgroundColor: '#ff00ff',
+    width: '100%',
+    height: 200,
+    backgroundColor: '#ff4488',
   },
+  sliderContainer: {
+    width: '100%',
+    margin: 50
+  }
 });
 
 
