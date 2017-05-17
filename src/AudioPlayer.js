@@ -16,9 +16,8 @@ function log(e) {
 }
 
 let playerInfo = {};
-var sound = new Howl({
-  src: ['http://hwcdn.libsyn.com/p/9/5/0/950f894211e17b78/Part_1_-_Schooled_by_Silicon_Valley.mp3?c_id=12078641&expiration=1494730851&hwt=4da344cb8477fe2203f931507cde8ded']
-});
+var sound = {};
+
 /*
 PlayerStatus:
 unloaded: 0,
@@ -53,6 +52,8 @@ class AudioPlayer extends Component {
     this.goForward = this.goForward.bind(this);
     this.seekToTime = this.seekToTime.bind(this);
     this.stop = this.stop.bind(this);
+    this.seek = this.seek.bind(this);
+    this.moveSeek = this.moveSeek.bind(this);
     this.test = this.test.bind(this);
   }
 
@@ -160,6 +161,17 @@ class AudioPlayer extends Component {
   stop() {
     ReactNativeAudioStreaming.stop();
   }
+  moveSeek(value) {
+    console.log(value);
+    this.setState({
+      position: value,
+    })
+  }
+
+  seek(value) {
+    sound.seek(value);
+    this.moveSeek(value);
+  }
 
   test() {
 
@@ -185,13 +197,18 @@ class AudioPlayer extends Component {
 
           </div>
           media stuff
+          <div>{this.state.position}</div>
+          <div>{this.state.duration}</div>
+
           <div style={style}>
             <Slider
-              defaultValue={30}
+              defaultValue={1}
               step={1}
               min={1}
-              max={1000}
-              onAfterChange={log}
+              value={parseInt(this.state.position)}
+              max={parseInt(this.state.duration)}
+              onChange={this.moveSeek}
+              onAfterChange={this.seek}
               maximumTrackStyle={{ backgroundColor: 'red', height: 10 }}
               minimumTrackStyle={{ backgroundColor: 'blue', height: 10 }}
               handleStyle={{
