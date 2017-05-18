@@ -102,7 +102,6 @@ class AudioPlayer extends Component {
       playerInfo.position = sound.seek();
       this.state.position = sound.seek();
 
-
       let status = sound.state();
       let position = 0;
       let duration = 0;
@@ -124,6 +123,8 @@ class AudioPlayer extends Component {
         default:
           break;
       }
+
+      this.props.onProgress(sound.seek());
 
       console.log('status: ', status);
     }, 1000);
@@ -234,14 +235,14 @@ class AudioPlayer extends Component {
 AudioPlayer.propTypes = {
   player: PropTypes.object,
   mediaUrl: PropTypes.string,
-  // onProgress: PropTypes.func,
+  onProgress: PropTypes.func,
   // onAction: PropTypes.func,
   // onComplete: PropTypes.func,
 };
 AudioPlayer.defaultProps = {
   player: {},
   mediaUrl: "",
-  // onProgress: {},
+  onProgress: {},
   // onAction: {},
   // onComplete: {},
 };
@@ -249,7 +250,7 @@ const styles = StyleSheet.create({
   foo: {
     width: '100%',
     height: 200,
-    backgroundColor: '#ff4488',
+    backgroundColor: '#eeeeee',
   },
   sliderContainer: {
     width: '100%',
