@@ -12,7 +12,7 @@ function onProgress(e) {
 }
 render(
   <div>
-    <AudioPlayer mediaUrl={sound} onProgress={onProgress} />
+    <AudioPlayer mediaUrl={sound} onProgress={onProgress} tags={[5,10,15,30,100, 157]} />
   </div>,
   document.getElementById('react-content')
 );
