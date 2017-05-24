@@ -187,7 +187,7 @@ class AudioPlayer extends Component {
         (this.props.tags || []).map((sec) => {
         const percent = (sec/this.state.duration) * 100;
         return (
-        <div style={{position: 'relative', left: `${percent}%`, top: 0, width: '5px', height: '20px', backgroundColor: '#ff00ff'}}></div>
+          <span style={{display: 'inline-block', position: 'absolute', left: `${percent}%`, top: 0, width: '3px', height: '20px', backgroundColor: '#ff00ff'}}></span>
         )
       })
 
@@ -237,7 +237,7 @@ class AudioPlayer extends Component {
                 borderRadius: 0,
               }}
             />
-            <div style={{width: '100%', height: '5px', backgroundColor: 'green'}}>
+            <div style={{width: '100%', height: '10px', top: '-13px', position: 'relative'}}>
               {tagBar}
             </div>
           </div>
@@ -252,6 +252,7 @@ AudioPlayer.propTypes = {
   player: PropTypes.object,
   mediaUrl: PropTypes.string,
   onProgress: PropTypes.func,
+  styleConfig: PropTypes.object,
   // tags: PropTypes.arrayOf(PropTypes.number),
   // onAction: PropTypes.func,
   // onComplete: PropTypes.func,
@@ -260,6 +261,7 @@ AudioPlayer.defaultProps = {
   player: {},
   mediaUrl: "",
   onProgress: {},
+  styleConfig: {},
   tags: [],
   // onAction: {},
   // onComplete: {},
