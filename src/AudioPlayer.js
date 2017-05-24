@@ -9,11 +9,6 @@ import Play from './assets/ios-play.svg';
 import Pause from './assets/ios-pause.svg';
 
 import {Howler} from 'howler';
-const style = { width: '90%', margin: 50 };
-
-function log(e) {
-  console.log(e);
-}
 
 let playerInfo = {};
 var sound = {};
@@ -63,7 +58,7 @@ class AudioPlayer extends Component {
   }
 
   componentWillMount() {
-    const { mediaUrl } = this.props;
+    const { mediaUrl, styleConfig: {progressColor, seekColor, playerColor, controlColor} } = this.props;
 
     console.log('componentWillMount');
     this.start(this.props);
@@ -182,12 +177,13 @@ class AudioPlayer extends Component {
   }
   render() {
     const {tags} = this.props.tags;
+    const { styleConfig: {progressColor, seekColor, playerColor, controlColor} } = this.props;
 
     const tagBar = (
         (this.props.tags || []).map((sec) => {
         const percent = (sec/this.state.duration) * 100;
         return (
-          <span style={{display: 'inline-block', position: 'absolute', left: `${percent}%`, top: 0, width: '3px', height: '20px', backgroundColor: '#ff00ff'}}></span>
+          <span style={{display: 'inline-block', position: 'absolute', left: `${percent}%`, top: 0, width: '3px', height: '20px', backgroundColor: seekColor}}></span>
         )
       })
 
@@ -196,7 +192,7 @@ class AudioPlayer extends Component {
     console.log(this.state.duration, this.state.position);
     return (
       <div>
-        <View style={styles.foo}>
+        <View style={{ width: '100%', height: 200, backgroundColor: playerColor }}>
           <div>
             {((playerStatus, play, pause) => {
               if (playerStatus == 3) {
@@ -215,7 +211,7 @@ class AudioPlayer extends Component {
           <div>{this.state.position}</div>
           <div>{this.state.duration}</div>
 
-          <div style={style}>
+          <div style={{ width: '90%', margin: 50 }}>
             <Slider
               defaultValue={1}
               step={1}
@@ -224,20 +220,20 @@ class AudioPlayer extends Component {
               max={parseInt(this.state.duration) || 100}
               onChange={this.moveSeek}
               onAfterChange={this.seek}
-              maximumTrackStyle={{ backgroundColor: 'red', height: 10 }}
-              minimumTrackStyle={{ backgroundColor: 'blue', height: 10, borderRadius: 0,paddingRight: -50, }}
+              maximumTrackStyle={{ backgroundColor: controlColor, height: 10 }}
+              minimumTrackStyle={{ backgroundColor: progressColor || 'blue', height: 10, borderRadius: 0,paddingRight: -50, }}
               handleStyle={{
-                borderColor: 'blue',
+                borderColor: progressColor,
                 borderWidth: 0,
                 height: 28,
                 width: 5,
                 marginLeft: -2,
                 marginTop: -9,
-                backgroundColor: 'blue',
+                backgroundColor: progressColor,
                 borderRadius: 0,
               }}
             />
-            <div style={{width: '100%', height: '10px', top: '-13px', position: 'relative'}}>
+            <div style={{width: '100%', height: '0px', top: '-13px', position: 'relative'}}>
               {tagBar}
             </div>
           </div>
@@ -252,7 +248,7 @@ AudioPlayer.propTypes = {
   player: PropTypes.object,
   mediaUrl: PropTypes.string,
   onProgress: PropTypes.func,
-  styleConfig: PropTypes.object,
+  styleConfig: PropTypes.objectOf(PropTypes.string),
   // tags: PropTypes.arrayOf(PropTypes.number),
   // onAction: PropTypes.func,
   // onComplete: PropTypes.func,
@@ -261,23 +257,11 @@ AudioPlayer.defaultProps = {
   player: {},
   mediaUrl: "",
   onProgress: {},
-  styleConfig: {},
+  styleConfig: {progressColor: 'blue', controlColor: 'red', seekColor: '#ff00ff', playerColor: '#eeeeee' },
   tags: [],
   // onAction: {},
   // onComplete: {},
 };
-const styles = StyleSheet.create({
-  foo: {
-    width: '100%',
-    height: 200,
-    backgroundColor: '#eeeeee',
-  },
-  sliderContainer: {
-    width: '100%',
-    margin: 50
-  }
-});
-
 
 
 export default AudioPlayer;
