@@ -4,7 +4,7 @@ import { shallow, mount } from 'enzyme'
 // Need this just to use mount for enzyme
 import './lib/mountTestHelper'
 import sinon from 'sinon'
-import AudioPlayer from './AudioPlayer'
+import AudioPlayer from './index'
 
 
 describe('AudioPlayer', () => {

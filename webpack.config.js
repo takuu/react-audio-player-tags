@@ -5,7 +5,7 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: {
-    app: "./src/index.js",
+    app: "./examples/index.js",
     vendor: [
       "babel-polyfill",
       // "react-hot-loader",
@@ -33,7 +33,6 @@ module.exports = {
       {
         test: /.js?$/,
         loaders: "babel-loader",
-        include: path.join(__dirname, "src"),
         exclude: /node_modules/,
       },
       {
@@ -99,7 +98,7 @@ module.exports = {
     new ExtractTextPlugin('style.css'),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: 'src/index.tpl.html',
+      template: 'examples/index.tpl.html',
       inject: 'body'
     }),
     new webpack.HotModuleReplacementPlugin(),
