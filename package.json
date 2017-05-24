@@ -1,5 +1,5 @@
 {
-  "name": "react-audio-player-primitive",
+  "name": "react-audio-player-tags",
   "version": "0.0.1",
   "description": "A React audio player with tags using and Howler.js",
   "main": "src/index.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/takuu/react-audio-player-primitive.git"
+    "url": "git+https://github.com/takuu/react-audio-player-tags.git"
   },
   "author": "Taku Uechi",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/takuu/react-audio-player-primitive/issues"
+    "url": "https://github.com/takuu/react-audio-player-tags/issues"
   },
-  "homepage": "https://github.com/takuu/react-audio-player-primitive#readme",
+  "homepage": "https://github.com/takuu/react-audio-player-tags#readme",
   "dependencies": {
     "howler": "^2.0.3",
     "ionicons": "^3.0.0",
