@@ -25,6 +25,15 @@ stopped: 5,
  */
 
 
+export function secondsToHMS(seconds=0) {
+  var start = 11;
+  var length = 8;
+  if(seconds < 3600) {
+    start = 14;
+    length = 5;
+  }
+  return new Date(seconds * 1000).toISOString().substr(start, length);
+}
 
 
 class AudioPlayer extends Component {
@@ -140,13 +149,12 @@ class AudioPlayer extends Component {
     // this.props.actions.playerResume(mediaUrl, title, episodeTitle, duration, imageUrl, episodeKey, progress);
   }
   goBack() {
-    const {mediaUrl, title, episodeTitle} = this.props.player;
-    this.props.actions.playerGoBack(mediaUrl);
+    const {position} = this.state;
+    this.seek(position - 15);
   }
   goForward() {
-    const {mediaUrl, title, episodeTitle} = this.props.player;
-    this.props.actions.playerGoForward(mediaUrl);
-
+    const {position} = this.state;
+    this.seek(position + 15);
   }
 
   seekToTime(percent) {
@@ -183,7 +191,7 @@ class AudioPlayer extends Component {
         (this.props.tags || []).map((sec) => {
         const percent = (sec/this.state.duration) * 100;
         return (
-          <span style={{display: 'inline-block', position: 'absolute', left: `${percent}%`, top: 0, width: '3px', height: '20px', backgroundColor: seekColor}}></span>
+          <span style={{display: 'inline-block', position: 'absolute', left: `${percent}%`, top: 0, width: '3px', height: '20px', backgroundColor: playerColor}}></span>
         )
       })
 
@@ -193,25 +201,38 @@ class AudioPlayer extends Component {
     return (
       <div>
         <View style={{ width: '100%', height: 200, backgroundColor: playerColor }}>
-          <div>
+
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '20px', padding: '5px'}}>
+            <span style={{'color': '#fff', fontSize: '1.8em'}}>{this.props.title}</span>
+          </div>
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '12px', padding: '5px'}}>
+            <span style={{'color': '#fff', fontSize: '1em'}}>{this.props.subTitle}</span>
+          </div>
+
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px', padding: '5px'}}>
+
+            <img src={require("./assets/icon_skip_back.png")} onClick={this.goBack} style={{width: '50px', padding: '1%'}}  />
             {((playerStatus, play, pause) => {
               if (playerStatus == 3) {
                 return (
-                  <Pause width={20} height={20} onClick={pause} />
+                  <Pause width={50} height={50} onClick={pause} style={{color: 'white', padding: '1%'}} fill="#fff" />
                 );
               } else {
                 return (
-                  <Play width={20} height={20} onClick={play} />
+                  <Play width={50} height={50} onClick={play} style={{color: 'white', padding: '1%'}} fill="#fff" />
                 )
               }
             })(this.state.playerStatus, this.play, this.pause)}
+            <img src={require("./assets/icon_skip_forward.png")} onClick={this.goForward} style={{width: '50px', padding: '1%'}} />
 
           </div>
-          media stuff
-          <div>{this.state.position}</div>
-          <div>{this.state.duration}</div>
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '12px 12px 0px 12px', padding: '5px 2%'}}>
+            <span style={{color: 'white'}}>{secondsToHMS(parseInt(this.state.position))}</span>
+            <span style={{color: 'white'}}>{secondsToHMS(parseInt(this.state.duration))}</span>
+          </div>
 
-          <div style={{ width: '90%', margin: 50 }}>
+
+          <div style={{ width: '96%', margin: '5px 2%', padding: '8px' }}>
             <Slider
               defaultValue={1}
               step={1}
@@ -247,6 +268,8 @@ class AudioPlayer extends Component {
 AudioPlayer.propTypes = {
   player: PropTypes.object,
   mediaUrl: PropTypes.string,
+  title: PropTypes.string,
+  subTitle: PropTypes.string,
   onProgress: PropTypes.func,
   styleConfig: PropTypes.objectOf(PropTypes.string),
   // tags: PropTypes.arrayOf(PropTypes.number),
@@ -256,8 +279,10 @@ AudioPlayer.propTypes = {
 AudioPlayer.defaultProps = {
   player: {},
   mediaUrl: "",
+  title: "",
+  subTitle: "",
   onProgress: {},
-  styleConfig: {progressColor: 'blue', controlColor: 'red', seekColor: '#ff00ff', playerColor: '#eeeeee' },
+  styleConfig: {progressColor: 'white', controlColor: '#56a0e5', seekColor: '#56a0e5', playerColor: '#0371d8' },
   tags: [],
   // onAction: {},
   // onComplete: {},

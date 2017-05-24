@@ -12,7 +12,7 @@ function onProgress(e) {
 }
 render(
   <div>
-    <AudioPlayer mediaUrl={sound} onProgress={onProgress} tags={[5,10,15,30,100, 157]} />
+    <AudioPlayer mediaUrl={sound} onProgress={onProgress} tags={[5,10,15,30,100, 157]} title="Nexcast" subTitle={"First Episode"} />
   </div>,
   document.getElementById('react-content')
 );
