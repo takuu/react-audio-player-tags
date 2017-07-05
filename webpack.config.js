@@ -2,6 +2,7 @@ var path = require("path");
 var webpack = require("webpack");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
+var svgLoader = require('react-svg-loader');
 
 console.log('dirname: ', __dirname + '/build');
 
@@ -96,7 +97,7 @@ module.exports = {
     extensions: [".js"]
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle-[hash].js' }),
+    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'index.js' }),
     new ExtractTextPlugin('style.css'),
     new HtmlWebpackPlugin({
       filename: 'index.html',
