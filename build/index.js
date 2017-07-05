@@ -76,7 +76,6 @@ var AudioPlayer = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (AudioPlayer.__proto__ || Object.getPrototypeOf(AudioPlayer)).call(this));
 
-    console.log('Howler: ', _howler.Howler);
     _this.state = {
       playerStatus: 0,
       duration: 0,
@@ -101,10 +100,7 @@ var AudioPlayer = function (_Component) {
 
   _createClass(AudioPlayer, [{
     key: 'onToggle',
-    value: function onToggle(e) {
-      console.log('test');
-      debugger;
-    }
+    value: function onToggle(e) {}
   }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
@@ -117,7 +113,6 @@ var AudioPlayer = function (_Component) {
           controlColor = _props$styleConfig.controlColor;
 
 
-      console.log('componentWillMount');
       this.start(this.props);
     }
   }, {
@@ -125,23 +120,19 @@ var AudioPlayer = function (_Component) {
     value: function componentWillReceiveProps(nextProps) {
 
       this.start(nextProps);
-      console.log('componentWillReceiveProps');
     }
   }, {
     key: 'start',
     value: function start(props) {
       var mediaUrl = props.mediaUrl;
 
-      console.log('start');
       if (playerInfo.mediaUrl != mediaUrl) {
         playerInfo.mediaUrl = mediaUrl;
         this.state.url = mediaUrl;
         sound = new Howl({
           src: [mediaUrl],
           volume: 0.1,
-          onend: function onend() {
-            console.log('finished!');
-          }
+          onend: function onend() {}
         });
         this.play();
       }
@@ -153,7 +144,7 @@ var AudioPlayer = function (_Component) {
 
       var mediaUrl = this.props.player.mediaUrl;
 
-      console.log('play');
+
       sound.play();
       playerInfo.intervalId = this.state.intervalId = setInterval(function () {
 
@@ -183,8 +174,6 @@ var AudioPlayer = function (_Component) {
         }
 
         _this2.props.onProgress(sound.seek());
-
-        console.log('status: ', status);
       }, 1000);
     }
   }, {
@@ -248,7 +237,6 @@ var AudioPlayer = function (_Component) {
   }, {
     key: 'moveSeek',
     value: function moveSeek(value) {
-      console.log(value);
       this.setState({
         position: value
       });
@@ -279,8 +267,7 @@ var AudioPlayer = function (_Component) {
         var percent = sec / _this3.state.duration * 100;
         return _react2.default.createElement('span', { style: { display: 'inline-block', position: 'absolute', left: percent + '%', top: 0, width: '3px', height: '20px', backgroundColor: playerColor } });
       });
-      console.log('tags: ', this.props.tags);
-      console.log(this.state.duration, this.state.position);
+
       return _react2.default.createElement(
         'div',
         null,

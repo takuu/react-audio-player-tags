@@ -3,9 +3,11 @@ var webpack = require("webpack");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 
+console.log('dirname: ', __dirname + '/build');
+
 module.exports = {
   entry: {
-    app: "./examples/index.js",
+    app: "./src/index.js",
     vendor: [
       "babel-polyfill",
       // "react-hot-loader",
@@ -23,9 +25,9 @@ module.exports = {
     }
   },
   output: {
-    filename: 'bundle-[hash].js',
+    filename: 'index.js',
     publicPath: '/',
-    path: '/build',
+    path: __dirname + '/build',
   },
   performance: {hints: false},
   module: {
@@ -94,7 +96,7 @@ module.exports = {
     extensions: [".js"]
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: '.build/vendor.bundle-[hash].js' }),
+    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle-[hash].js' }),
     new ExtractTextPlugin('style.css'),
     new HtmlWebpackPlugin({
       filename: 'index.html',

@@ -39,7 +39,6 @@ export function secondsToHMS(seconds=0) {
 class AudioPlayer extends Component {
   constructor() {
     super();
-    console.log('Howler: ', Howler);
     this.state = {
       playerStatus: 0,
       duration: 0,
@@ -62,26 +61,22 @@ class AudioPlayer extends Component {
   }
 
   onToggle(e) {
-    console.log('test');
-    debugger;
+
   }
 
   componentWillMount() {
     const { mediaUrl, styleConfig: {progressColor, seekColor, playerColor, controlColor} } = this.props;
 
-    console.log('componentWillMount');
     this.start(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
 
     this.start(nextProps);
-    console.log('componentWillReceiveProps');
   }
 
   start(props) {
     const { mediaUrl } = props;
-    console.log('start');
     if(playerInfo.mediaUrl != mediaUrl) {
       playerInfo.mediaUrl = mediaUrl;
       this.state.url = mediaUrl;
@@ -89,7 +84,7 @@ class AudioPlayer extends Component {
         src: [mediaUrl],
         volume: 0.1,
         onend: function() {
-          console.log('finished!');
+
         }
       });
       this.play();
@@ -99,7 +94,7 @@ class AudioPlayer extends Component {
 
   play() {
     const {mediaUrl} = this.props.player;
-    console.log('play');
+
     sound.play();
     playerInfo.intervalId = this.state.intervalId = setInterval(() => {
 
@@ -130,7 +125,6 @@ class AudioPlayer extends Component {
 
       this.props.onProgress(sound.seek());
 
-      console.log('status: ', status);
     }, 1000);
   }
 
@@ -169,7 +163,6 @@ class AudioPlayer extends Component {
     ReactNativeAudioStreaming.stop();
   }
   moveSeek(value) {
-    console.log(value);
     this.setState({
       position: value,
     })
@@ -196,8 +189,7 @@ class AudioPlayer extends Component {
       })
 
     );
-    console.log('tags: ', this.props.tags);
-    console.log(this.state.duration, this.state.position);
+
     return (
       <div>
         <View style={{ width: '100%', height: 200, backgroundColor: playerColor }}>
