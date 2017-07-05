@@ -1,6 +1,6 @@
 {
   "name": "react-audio-player-tags",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A React audio player with tags using and Howler.js",
   "main": "build/index.js",
   "scripts": {
