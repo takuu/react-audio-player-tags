@@ -26,9 +26,11 @@ module.exports = {
     }
   },
   output: {
-    filename: 'index.js',
+    filename: '[name].js',
     publicPath: '/',
     path: __dirname + '/build',
+    chunkFilename: '[id].[chunkhash].js',
+    libraryTarget: 'umd',
   },
   performance: {hints: false},
   module: {
