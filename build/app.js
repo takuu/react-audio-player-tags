@@ -16002,6 +16002,7 @@ var SVG = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = SVG;
+module.exports = exports["default"];
 
 /***/ }),
 /* 344 */
@@ -16054,6 +16055,7 @@ var SVG = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = SVG;
+module.exports = exports["default"];
 
 /***/ }),
 /* 345 */,

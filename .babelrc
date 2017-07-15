@@ -5,6 +5,7 @@
     "stage-0"
   ],
   "plugins": [
-    "transform-react-jsx"
+    "transform-react-jsx",
+    "add-module-exports"
   ]
 }
