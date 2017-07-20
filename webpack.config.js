@@ -30,7 +30,7 @@ module.exports = {
     publicPath: '/',
     path: __dirname + '/build',
     chunkFilename: '[id].[chunkhash].js',
-    libraryTarget: 'umd',
+    // libraryTarget: 'umd',
   },
   performance: {hints: false},
   module: {

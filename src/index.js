@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Image, StyleSheet } from 'react-primitives';
-
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
@@ -21,7 +19,6 @@ loaded: 2,
 playing: 3,
 paused: 4,
 stopped: 5,
-
  */
 
 
@@ -34,7 +31,6 @@ export function secondsToHMS(seconds=0) {
   }
   return new Date(seconds * 1000).toISOString().substr(start, length);
 }
-
 
 class AudioPlayer extends Component {
   constructor() {
@@ -61,17 +57,14 @@ class AudioPlayer extends Component {
   }
 
   onToggle(e) {
-
   }
 
   componentWillMount() {
     const { mediaUrl, styleConfig: {progressColor, seekColor, playerColor, controlColor} } = this.props;
-
     this.start(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-
     this.start(nextProps);
   }
 
@@ -156,11 +149,9 @@ class AudioPlayer extends Component {
     //seekToTime
     const sec = (percent/100) * duration;
     if(duration) this.props.actions.playerSeekTo(mediaUrl, sec);
-    // if(this.props.duration) ReactNativeAudioStreaming.seekToTime(sec)
   }
 
   stop() {
-    ReactNativeAudioStreaming.stop();
   }
   moveSeek(value) {
     this.setState({
@@ -192,7 +183,7 @@ class AudioPlayer extends Component {
 
     return (
       <div>
-        <View style={{ width: '100%', height: 200, backgroundColor: playerColor }}>
+        <div style={{ width: '100%', height: 200, backgroundColor: playerColor }}>
 
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '20px', padding: '5px'}}>
             <span style={{'color': '#fff', fontSize: '1.8em'}}>{this.props.title}</span>
@@ -251,7 +242,7 @@ class AudioPlayer extends Component {
             </div>
           </div>
 
-        </View>
+        </div>
       </div>
     );
   }
